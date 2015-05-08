@@ -14,29 +14,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SQL_query {
-    static final String userName="root";//will have to change when db is moved to triton
-    static final String password="";//put your MySQL password
+    static final String userName="rhorne8";//will have to change when db is moved to triton
+    static final String password="Cosc*7dm4";//put your MySQL password
     private static Connection connection=null;
     ResultSetMetaData meta_rs;
     ResultSet rs;
     String query_statement;
     
-    /**
-     * @param args the command line arguments
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.lang.InstantiationException
-     * @throws java.lang.IllegalAccessException
-     * @throws java.sql.SQLException
-     */
+    
     public SQL_query(){
         
         
-        System.out.println("Constructing new SQL_query object");
+        System.out.println("SQL_query: Constructing new SQL_query object");
         Object newInstance;
         
         try{
             newInstance = Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/rhorne8db", userName, password);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:5030/rhorne8db", userName, password);
         }
         catch(SQLException e){
             System.err.println("SQL Exception caught");
@@ -51,50 +45,50 @@ public class SQL_query {
         catch(IllegalAccessException e){
             System.err.println("IllegalAccessException");
         }
-        System.out.println("SQL_query-DriverManager.getConnection - success!");
+        System.out.println("SQL_query: SQL_query-DriverManager.getConnection - success!");
     }
     //query strings
     public static String get_all_employee_query_string() {
-        return "select con_fname, con_lname, con_ssn, con_address  from rhorne8db.contractor;";
+        return "select *  from Contractor;";
     }
     public static String get_show_bartender_query_string() {
-       return "select *  from rhorne8db.contractor where con_bartender = 1;";
+       return "select *  from Contractor where con_bartender = 1;";
     }
     public static String show_open_invoices_query_string() {
-       return "SELECT job_id , client_name,invoice_owed, invoice_received, (invoice_owed - invoice_received) AS `AMOUNT DUE` " +
-            "FROM  rhorne8db.invoice, rhorne8db.client, rhorne8db.job\n" +
-            "WHERE invoice_cid = client_id\n" +
-            "AND invoice_jid = job_id\n" +
+       return "SELECT job_id , client_name,invoice_owed, invoice_received, (invoice_owed - invoice_received) AS AMT OWED " +
+            "FROM  Invoice, Client, Job " +
+            "WHERE invoice_cid = client_id " +
+            "AND invoice_jid = job_id " +
             "AND (invoice_received < invoice_owed);";
     }
     public static String show_all_invoices_query_string() {
-       return "SELECT job_id, client_name,invoice_owed, invoice_received, (invoice_owed - invoice_received) AS `AMOUNT DUE`" +
-            "FROM  rhorne8db.invoice, rhorne8db.client, rhorne8db.job\n" +
-            "WHERE invoice_cid = client_id\n" +
+       return "SELECT job_id, client_name,invoice_owed, invoice_received, invoice_owed - invoice_received " +
+            "FROM  Invoice, Client, Job " +
+            "WHERE invoice_cid = client_id " +
             "AND invoice_jid = job_id;";
     }
     public static String show_all_jobs_query_string() {
-       return "SELECT job_id, job_date, client_name, ven_name, ven_address, ven_city, ven_state, ven_zip, ven_phone\n" +
-            "FROM rhorne8db.job, rhorne8db.client, rhorne8db.venue\n" +
-            "where client_id = job_cid\n" +
-            "and ven_id = job_vid;";
+       return "SELECT job_id, job_date, client_name, ven_name, ven_address, ven_city, ven_state, ven_zip, ven_phone \n" +
+        "FROM Client, Job, Venue \n" +
+        "where client_id = job_cid\n" +
+        "and ven_id = job_vid;";
     }
     public static String show_all_clients_query_string(){
-        return "select * from rhorne8db.client;";
+        return "select * from Client;";
     }
     public static String show_all_clients_email_query_string() {
-       return "SELECT client_id, client_name AS Name, `client_address` AS `Street NO`, `client_city` AS `City`, `client_state` AS `STATE`, `client_zip` AS `ZIPCODE` , `clip_phone` AS `PHONE`,\n" +
-            "`clie_email` AS `EMAIL`\n" +
-            "FROM `rhorne8db`.`client`, `rhorne8db`.`clientemails`, `rhorne8db`.`clientphones`\n" +
-            "WHERE client_id = clie_id \n" +
+       return "SELECT client_id, client_name, `client_address` , `client_city`, `client_state`, `client_zip` , `clip_phone` " +
+            "`clie_email` " +
+            "FROM  Client, ClientEmails`, ClientPhones`" +
+            "WHERE client_id = clie_id " +
             "AND client_id = clip_id;";
     }
     public static String get_job_info_contractor(int job_id){
-        return "SELECT con_fname,con_lname,conp_phone,conmail_mail \n" +
-            "FROM contractor,contractoremail,contractorphones,jobworkers\n" +
-            "WHERE con_cid = conmail_cid\n" +
-            "AND con_cid = conp_cid\n" +
-            "AND con_cid = jw_cid\n" +
+        return "SELECT con_fname,con_lname,conp_phone,conmail_mail " +
+            "FROM Contractor,ContractorEmail,ContractorPhones,JobWorkers " +
+            "WHERE con_cid = conmail_cid " +
+            "AND con_cid = conp_cid " +
+            "AND con_cid = jw_cid " +
             "AND jw_jid =" + job_id + ";";
             
     }
@@ -103,26 +97,48 @@ public class SQL_query {
         
     }
     */
-    public void make_query(String query_string){
+    public void make_query(String query_string) throws SQLException{
+        
+        Statement statement = null;
+        
         try{
-        // Please use your database name here
-        String[] results; 
-        
-        
-        Statement statement = connection.createStatement();
-        
-        rs = statement.executeQuery(query_string);
-        meta_rs = rs.getMetaData();
-        
-        //now to pass results and results meta data
-         
-        
-        System.out.println("Connected to db");
-        
-        
-        printTest(rs);
+            // Please use your database name here
+            String[] results; 
+
+            System.out.println("SQL_query: creating statement");
+            
+            statement = connection.createStatement();
+            
+            System.out.println("SQL_query: executing query");
+            
+            rs = statement.executeQuery(query_string);
+            
+            System.out.println("SQL_query: Attempting to get metadata");
+            
+            meta_rs = rs.getMetaData();
+
+            System.out.println("SQL_query: got metadata");
+
+            
+            //now to pass results and results meta data
+
+
+            System.out.println("SQL_query: Connected to db");
+
+
+            //printTest(rs);
         }
-        catch(SQLException e){};
+        catch(SQLException e){
+            System.err.println("SQL_query: SQL Exception Caught");
+            System.err.println("SQLState: " +
+                    ((SQLException)e).getSQLState());
+            e.printStackTrace();
+        }
+        finally{
+            if(statement != null){
+                //statement.close();
+            }
+        }
     }
     
     public void make_update(String s){
@@ -130,11 +146,11 @@ public class SQL_query {
             
             Statement statement = connection.createStatement();
         
-            System.out.println("Attempting Update");
+            System.out.println("SQL_query: Attempting Update");
         
             statement.executeUpdate(s);
                 
-            System.out.println("Update executed");
+            System.out.println("SQL_query: Update executed");
                 
         }
         catch(SQLException e){};
@@ -142,11 +158,11 @@ public class SQL_query {
     }
     
     public ResultSet getResultSet(){
-        System.out.println("returning resultset");
+        System.out.println("SQL_query: returning resultset");
         return rs;
     }
     public ResultSetMetaData getResultSetMetaData(){
-        System.out.println("returning resultset metadata");
+        System.out.println("SQL_query: returning resultset metadata");
         return meta_rs;
     }
     public int getColumnCount()throws SQLException{
