@@ -76,7 +76,7 @@ public class QueryTableModel extends AbstractTableModel{
             //get column names from meta data
             headers = new String[col_count];
             
-            System.out.println("Headers: ");
+            System.out.println("QTM: Headers: ");
             
             for(int i = 0; i < col_count; i++){
                 headers[i] = rs_meta.getColumnName(i + 1);
@@ -84,7 +84,10 @@ public class QueryTableModel extends AbstractTableModel{
             }
 
             //now add data from result set to our arraylist
+          
+            
             while(rs.next()){
+                
                 String[] td = new String[col_count];
 
                 for(int i = 0 ; i< col_count; i++){
@@ -96,12 +99,17 @@ public class QueryTableModel extends AbstractTableModel{
                 System.out.println("");
                 //add our new string array to the array list
                 table_data.add(td);
+                
             }
-
+            System.out.println("Firetable");
+            fireTableChanged(null);
             table_changed();
         }
         catch(SQLException e){
-            System.err.println("!!!");
+            System.err.println("update_upon_query:");
+             System.err.println("SQLState: " +
+                    ((SQLException)e).getSQLState());
+             e.printStackTrace();
         }
         
     }
@@ -114,7 +122,7 @@ public class QueryTableModel extends AbstractTableModel{
         }
         @Override
         public void tableChanged(TableModelEvent e){
-            System.out.println("Table event was called");
+            System.out.println("QTM: Table event was called");
         }
     }
     @Override
@@ -126,8 +134,8 @@ public class QueryTableModel extends AbstractTableModel{
         return headers;
     }
     public void table_changed(){
-        System.out.println("Columns :" + getColumnCount());
-        System.out.println("Rows :" + getRowCount());
+        System.out.println("QTM: Columns :" + getColumnCount());
+        System.out.println("QTM: Rows :" + getRowCount());
         fireTableChanged(null);
     }
 }

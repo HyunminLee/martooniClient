@@ -26,42 +26,32 @@ public class Coordinator {
     }
     
     
-    public void make_query(String s){
+    public void make_query(String s) throws SQLException{
         
-        System.out.println("Trying to query database");
+        System.out.println("Coordinator: Trying to query database");
         
-        try{
+        
+            System.out.println("Coordinator: making query");
+            
             sql_query.make_query(s);
             
-            System.out.println("Database responded");
+            System.out.println("Coordinator: Database responded");
             
-            update_q_table(sql_query.getResultSet(), sql_query.getResultSetMetaData());
+            ResultSet rs = sql_query.getResultSet();
             
-            System.out.println("Updating table");
-        }
-        catch(SQLException e){
-            System.err.println("SQL Exception caught");
-        }
-        catch(ClassNotFoundException e){ 
-            System.err.println("ClassNotFoundException");
-        }
-        catch(InstantiationException e){
-            System.err.println("InstantiationException");
-        }
-        catch(IllegalAccessException e){
-            System.err.println("IllegalAccessException");
-        }
+            ResultSetMetaData rs_meta = sql_query.getResultSetMetaData();
+            
+            q.update_upon_query(rs, rs_meta);
+            
+            System.out.println("Coordinator: Updating table");
+        
+        
         
         //call update table
         
         
     }
-    public void update_q_table(ResultSet rs, ResultSetMetaData rs_meta)throws SQLException,ClassNotFoundException,InstantiationException,IllegalAccessException{
-        System.out.println("Calling update_upon_query method");
-        q.update_upon_query(rs, rs_meta);
-        System.out.println("Called update_upon_query method");
-        
-    }
+    
     public void job_table_clicked(JTable job_table){
         
         int job_id = Integer.parseInt((String)(q.getValueAt(job_table.getSelectedRow(), 0)));
