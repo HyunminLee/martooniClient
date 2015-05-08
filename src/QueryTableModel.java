@@ -37,7 +37,6 @@ public class QueryTableModel extends AbstractTableModel{
         
         
         
-        
         //setup default table info
         table_data = new ArrayList<>(4);
         col_count =4;
@@ -46,7 +45,7 @@ public class QueryTableModel extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int row, int col) { 
-        System.out.println("getValueat being called for row " + row + " and col " + col );
+        //System.out.println("getValueat being called for row " + row + " and col " + col );
         return ((String[]) table_data.get(row))[col];
     }
     @Override
@@ -57,6 +56,7 @@ public class QueryTableModel extends AbstractTableModel{
     public int getColumnCount(){
        return col_count;
     }
+    
     @Override
     public String getColumnName(int i){
         return headers[i];
@@ -98,7 +98,7 @@ public class QueryTableModel extends AbstractTableModel{
                 table_data.add(td);
             }
 
-            fireTableChanged(null);
+            table_changed();
         }
         catch(SQLException e){
             System.err.println("!!!");
@@ -116,6 +116,19 @@ public class QueryTableModel extends AbstractTableModel{
         public void tableChanged(TableModelEvent e){
             System.out.println("Table event was called");
         }
+    }
+    @Override
+    public boolean isCellEditable(int row, int column){
+        return true;
+    }
+    
+    public String[] get_headers(){
+        return headers;
+    }
+    public void table_changed(){
+        System.out.println("Columns :" + getColumnCount());
+        System.out.println("Rows :" + getRowCount());
+        fireTableChanged(null);
     }
 }
 

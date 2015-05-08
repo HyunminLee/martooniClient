@@ -2,6 +2,8 @@
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JTable;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -60,6 +62,21 @@ public class Coordinator {
         System.out.println("Called update_upon_query method");
         
     }
-    
-    
+    public void job_table_clicked(JTable job_table){
+        
+        int job_id = Integer.parseInt((String)(q.getValueAt(job_table.getSelectedRow(), 0)));
+        System.out.println("JOB ID = " + job_id);
+        //sql_query
+    }
+    public void table_clicked(JTable t){
+        
+        int id = Integer.parseInt((String)(q.getValueAt(t.getSelectedRow(), 0)));
+        System.out.println("ROW Number = " + id);
+        //sql_query
+    }
+    public void add_new_client(ArrayList new_client_text){
+        
+        sql_query.make_update(sql_query.add_new_client(new_client_text, q.get_headers()));
+        q.table_changed();
+    }
 }

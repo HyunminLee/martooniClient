@@ -6,6 +6,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.plaf.basic.BasicListUI;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -29,16 +31,6 @@ public class MainWindow extends javax.swing.JFrame {
     
     public MainWindow()  {
         query_table = new QueryTableModel();
-        
-        emp_table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-            @Override
-            public void valueChanged(ListSelectionEvent lse) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        
         
         c = new Coordinator(query_table);
         
@@ -65,6 +57,8 @@ public class MainWindow extends javax.swing.JFrame {
         search_only_bartenders_jLabel1 = new javax.swing.JLabel();
         search_only_bartenders_jButton1 = new javax.swing.JButton();
         header_label2 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        job_text_area = new javax.swing.JTextArea();
         invoice_jPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         invoice_table = new javax.swing.JTable();
@@ -81,12 +75,36 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         emp_table = new javax.swing.JTable();
         header_label = new javax.swing.JLabel();
+        client_jPanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        client_table = new javax.swing.JTable();
+        search_all_clients_Button = new javax.swing.JButton();
+        show_all_jobs_jLabel1 = new javax.swing.JLabel();
+        header_label3 = new javax.swing.JLabel();
+        client_text_field_1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        client_text_field_2 = new javax.swing.JTextField();
+        client_text_field_3 = new javax.swing.JTextField();
+        client_text_field_4 = new javax.swing.JTextField();
+        client_text_field_5 = new javax.swing.JTextField();
+        add_client_button = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         job_table.setModel(query_table);
         job_table.setFillsViewportHeight(true);
         jScrollPane3.setViewportView(job_table);
+        job_table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                table_clicked();
+            }
+        });
 
         search_all_jobs_Button.setText("Search");
         search_all_jobs_Button.addActionListener(new java.awt.event.ActionListener() {
@@ -110,10 +128,18 @@ public class MainWindow extends javax.swing.JFrame {
         header_label2.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         header_label2.setText("MARTOONIS DB ");
 
+        job_text_area.setColumns(20);
+        job_text_area.setRows(5);
+        jScrollPane5.setViewportView(job_text_area);
+
         javax.swing.GroupLayout job_jPanelLayout = new javax.swing.GroupLayout(job_jPanel);
         job_jPanel.setLayout(job_jPanelLayout);
         job_jPanelLayout.setHorizontalGroup(
             job_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, job_jPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(header_label2)
+                .addGap(264, 264, 264))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, job_jPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(job_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,12 +150,10 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(search_all_jobs_Button)
                     .addComponent(search_only_bartenders_jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(job_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane5)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE))
                 .addGap(68, 68, 68))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, job_jPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(header_label2)
-                .addGap(264, 264, 264))
         );
         job_jPanelLayout.setVerticalGroup(
             job_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +172,10 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(search_only_bartenders_jButton1)))
                     .addGroup(job_jPanelLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(234, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Jobs", job_jPanel);
@@ -289,25 +315,193 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(emp_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(search_only_bartenders_jLabel)
                             .addComponent(search_only_bartenders_jButton)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(234, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Employee", emp_jPanel);
+
+        client_table.setModel(query_table);
+        client_table.setFillsViewportHeight(true);
+        jScrollPane6.setViewportView(client_table);
+        client_table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent event) {
+                table_clicked();
+            }
+        });
+
+        search_all_clients_Button.setText("Search");
+        search_all_clients_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_all_clients_ButtonActionPerformed(evt);
+            }
+        });
+
+        show_all_jobs_jLabel1.setText("Show All Clients");
+
+        header_label3.setBackground(new java.awt.Color(255, 255, 255));
+        header_label3.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        header_label3.setText("MARTOONIS DB ");
+
+        client_text_field_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_text_field_1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Name");
+
+        jLabel2.setText("Street NO");
+
+        jLabel3.setText("City");
+
+        jLabel4.setText("State");
+
+        jLabel5.setText("Zipcode");
+
+        client_text_field_2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_text_field_2ActionPerformed(evt);
+            }
+        });
+
+        client_text_field_3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_text_field_3ActionPerformed(evt);
+            }
+        });
+
+        client_text_field_4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_text_field_4ActionPerformed(evt);
+            }
+        });
+
+        client_text_field_5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                client_text_field_5ActionPerformed(evt);
+            }
+        });
+
+        add_client_button.setText("Add");
+        add_client_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_client_buttonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout client_jPanelLayout = new javax.swing.GroupLayout(client_jPanel);
+        client_jPanel.setLayout(client_jPanelLayout);
+        client_jPanelLayout.setHorizontalGroup(
+            client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, client_jPanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(show_all_jobs_jLabel1)
+                .addGap(60, 60, 60)
+                .addComponent(search_all_clients_Button)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 774, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(client_jPanelLayout.createSequentialGroup()
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(client_text_field_1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(client_text_field_2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(96, 96, 96)
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(client_text_field_3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(104, 104, 104)
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(client_text_field_4, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(108, 108, 108)
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(client_text_field_5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
+                    .addComponent(add_client_button, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(68, 68, 68))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, client_jPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(header_label3)
+                .addGap(264, 264, 264))
+        );
+        client_jPanelLayout.setVerticalGroup(
+            client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(client_jPanelLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(header_label3)
+                .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(client_jPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(search_all_clients_Button)
+                            .addComponent(show_all_jobs_jLabel1)))
+                    .addGroup(client_jPanelLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(client_jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(client_text_field_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(client_text_field_2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(client_text_field_3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(client_text_field_4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(client_text_field_5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(add_client_button)
+                .addContainerGap(300, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Clients", client_jPanel);
+
+        jScrollPane2.setViewportView(jTextPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(540, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(226, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(563, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(107, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void emp_tableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emp_tableMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emp_tableMouseReleased
+     
+    private void table_clicked(){
+        c.job_table_clicked(job_table);
+    }
+    private void search_only_bartenders_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_only_bartenders_jButtonActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Button pressed");
+        c.make_query(SQL_query.get_show_bartender_query_string());
+    }//GEN-LAST:event_search_only_bartenders_jButtonActionPerformed
 
     private void search_all_employees_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_all_employees_ButtonActionPerformed
         // TODO add your handling code here:
@@ -315,35 +509,69 @@ public class MainWindow extends javax.swing.JFrame {
         c.make_query(SQL_query.get_all_employee_query_string());
     }//GEN-LAST:event_search_all_employees_ButtonActionPerformed
 
-    private void search_only_bartenders_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_only_bartenders_jButtonActionPerformed
+    private void search_open_invoices_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_open_invoices_jButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("Button pressed");
-        c.make_query(SQL_query.get_show_bartender_query_string());
-    }//GEN-LAST:event_search_only_bartenders_jButtonActionPerformed
-
-    private void search_all_jobs_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_all_jobs_ButtonActionPerformed
-        // TODO add your handling code here:
-        c.make_query(SQL_query.show_all_jobs_query_string());
-    }//GEN-LAST:event_search_all_jobs_ButtonActionPerformed
-
-    private void search_only_bartenders_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_only_bartenders_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_search_only_bartenders_jButton1ActionPerformed
+        c.make_query(SQL_query.show_open_invoices_query_string());
+    }//GEN-LAST:event_search_open_invoices_jButtonActionPerformed
 
     private void search_all_invoices_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_all_invoices_ButtonActionPerformed
         // TODO add your handling code here:
         c.make_query(SQL_query.show_all_invoices_query_string());
     }//GEN-LAST:event_search_all_invoices_ButtonActionPerformed
 
-    private void search_open_invoices_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_open_invoices_jButtonActionPerformed
+    private void search_only_bartenders_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_only_bartenders_jButton1ActionPerformed
         // TODO add your handling code here:
-        c.make_query(SQL_query.show_open_invoices_query_string());
-    }//GEN-LAST:event_search_open_invoices_jButtonActionPerformed
+    }//GEN-LAST:event_search_only_bartenders_jButton1ActionPerformed
 
-    private void emp_tableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emp_tableMouseReleased
+    private void search_all_jobs_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_all_jobs_ButtonActionPerformed
+        // TODO add your handling code here:
+        c.make_query(SQL_query.show_all_jobs_query_string());
+    }//GEN-LAST:event_search_all_jobs_ButtonActionPerformed
+
+    private void search_all_clients_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_all_clients_ButtonActionPerformed
+        c.make_query(SQL_query.show_all_clients_query_string());
+    }//GEN-LAST:event_search_all_clients_ButtonActionPerformed
+
+    private void client_text_field_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_text_field_1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_text_field_1ActionPerformed
+
+    private void client_text_field_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_text_field_2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_text_field_2ActionPerformed
+
+    private void client_text_field_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_text_field_3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_text_field_3ActionPerformed
+
+    private void client_text_field_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_text_field_4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_text_field_4ActionPerformed
+
+    private void client_text_field_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_client_text_field_5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_client_text_field_5ActionPerformed
+
+    private void add_client_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_client_buttonActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_emp_tableMouseReleased
+        ArrayList<String> new_client_text = new ArrayList<>();
+        
+        String client_text_field_1_string = client_text_field_1.getText();
+        String client_text_field_2_string = client_text_field_2.getText();
+        String client_text_field_3_string = client_text_field_3.getText();
+        String client_text_field_4_string = client_text_field_4.getText();
+        String client_text_field_5_string = client_text_field_5.getText();
+        
+        new_client_text.add(client_text_field_1_string);
+        new_client_text.add(client_text_field_2_string);
+        new_client_text.add(client_text_field_3_string);
+        new_client_text.add(client_text_field_4_string);
+        new_client_text.add(client_text_field_5_string);
+        c.add_new_client(new_client_text);
+        
+    
+    }//GEN-LAST:event_add_client_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,19 +610,39 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_client_button;
+    private javax.swing.JPanel client_jPanel;
+    private javax.swing.JTable client_table;
+    private javax.swing.JTextField client_text_field_1;
+    private javax.swing.JTextField client_text_field_2;
+    private javax.swing.JTextField client_text_field_3;
+    private javax.swing.JTextField client_text_field_4;
+    private javax.swing.JTextField client_text_field_5;
     private javax.swing.JPanel emp_jPanel;
     private javax.swing.JTable emp_table;
     private javax.swing.JLabel header_label;
     private javax.swing.JLabel header_label1;
     private javax.swing.JLabel header_label2;
+    private javax.swing.JLabel header_label3;
     private javax.swing.JPanel invoice_jPanel;
     private javax.swing.JTable invoice_table;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JPanel job_jPanel;
     private javax.swing.JTable job_table;
+    private javax.swing.JTextArea job_text_area;
+    private javax.swing.JButton search_all_clients_Button;
     private javax.swing.JButton search_all_employees_Button;
     private javax.swing.JLabel search_all_employees_jLabel;
     private javax.swing.JButton search_all_invoices_Button;
@@ -406,6 +654,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel search_only_bartenders_jLabel1;
     private javax.swing.JButton search_open_invoices_jButton;
     private javax.swing.JLabel show_all_jobs_jLabel;
+    private javax.swing.JLabel show_all_jobs_jLabel1;
     private javax.swing.JLabel show_open_invoices_jLabel;
     // End of variables declaration//GEN-END:variables
 }

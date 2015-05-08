@@ -9,6 +9,7 @@
  * @author Robert
  */
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,11 +74,35 @@ public class SQL_query {
             "AND invoice_jid = job_id;";
     }
     public static String show_all_jobs_query_string() {
-       return "SELECT job_date,  client_name, ven_name, ven_address, ven_city, ven_state, ven_zip, ven_phone\n" +
+       return "SELECT job_id, job_date, client_name, ven_name, ven_address, ven_city, ven_state, ven_zip, ven_phone\n" +
             "FROM rhorne8db.job, rhorne8db.client, rhorne8db.venue\n" +
             "where client_id = job_cid\n" +
-            "and ven_id = job_vid;;";
+            "and ven_id = job_vid;";
     }
+    public static String show_all_clients_query_string(){
+        return "select * from rhorne8db.client;";
+    }
+    public static String show_all_clients_email_query_string() {
+       return "SELECT client_id, client_name AS Name, `client_address` AS `Street NO`, `client_city` AS `City`, `client_state` AS `STATE`, `client_zip` AS `ZIPCODE` , `clip_phone` AS `PHONE`,\n" +
+            "`clie_email` AS `EMAIL`\n" +
+            "FROM `rhorne8db`.`client`, `rhorne8db`.`clientemails`, `rhorne8db`.`clientphones`\n" +
+            "WHERE client_id = clie_id \n" +
+            "AND client_id = clip_id;";
+    }
+    public static String get_job_info_contractor(int job_id){
+        return "SELECT con_fname,con_lname,conp_phone,conmail_mail \n" +
+            "FROM contractor,contractoremail,contractorphones,jobworkers\n" +
+            "WHERE con_cid = conmail_cid\n" +
+            "AND con_cid = conp_cid\n" +
+            "AND con_cid = jw_cid\n" +
+            "AND jw_jid =" + job_id + ";";
+            
+    }
+    /*
+    public static String get_job_info_glassware(int job_id){
+        
+    }
+    */
     public void make_query(String query_string){
         try{
         // Please use your database name here
@@ -98,6 +123,22 @@ public class SQL_query {
         printTest(rs);
         }
         catch(SQLException e){};
+    }
+    
+    public void make_update(String s){
+        try{
+            
+            Statement statement = connection.createStatement();
+        
+            System.out.println("Attempting Update");
+        
+            statement.executeUpdate(s);
+                
+            System.out.println("Update executed");
+                
+        }
+        catch(SQLException e){};
+        
     }
     
     public ResultSet getResultSet(){
@@ -124,6 +165,17 @@ public class SQL_query {
                 System.out.println();
         }
         r.beforeFirst();
+        
+    }
+    public String add_new_client(ArrayList new_client_text, String[] headers){
+        String update = null;
+        
+        update = "INSERT INTO rhorne8db.Client ("  + headers[1] + "," + headers[2] +"," + headers[3] + "," + headers[4] + ","
+                + headers[5] + ")" + " VALUES (\""+ new_client_text.get(0) + "\",\""  + new_client_text.get(1) + "\",\""  + new_client_text.get(2) + "\",\""  
+                + new_client_text.get(3) + "\",\""  + new_client_text.get(4) + "\");" ;
+        
+        System.out.println(update);
+        return update;
         
     }
 }
