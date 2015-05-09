@@ -153,15 +153,20 @@ public class SQL_query {
             System.out.println("SQL_query: Update executed");
                 
         }
-        catch(SQLException e){};
+        catch(SQLException e){
+            System.err.println("SQL_query/make update: SQL Exception Caught");
+            System.err.println("SQLState: " +
+                    ((SQLException)e).getSQLState());
+            e.printStackTrace();
+        };
         
     }
     
-    public ResultSet getResultSet(){
+    public ResultSet getResultSet()throws SQLException{
         System.out.println("SQL_query: returning resultset");
         return rs;
     }
-    public ResultSetMetaData getResultSetMetaData(){
+    public ResultSetMetaData getResultSetMetaData()throws SQLException{
         System.out.println("SQL_query: returning resultset metadata");
         return meta_rs;
     }
@@ -186,9 +191,12 @@ public class SQL_query {
     public String add_new_client(ArrayList new_client_text, String[] headers){
         String update = null;
         
+        
+        
         update = "INSERT INTO rhorne8db.Client ("  + headers[1] + "," + headers[2] +"," + headers[3] + "," + headers[4] + ","
                 + headers[5] + ")" + " VALUES (\""+ new_client_text.get(0) + "\",\""  + new_client_text.get(1) + "\",\""  + new_client_text.get(2) + "\",\""  
                 + new_client_text.get(3) + "\",\""  + new_client_text.get(4) + "\");" ;
+        
         
         System.out.println(update);
         return update;
